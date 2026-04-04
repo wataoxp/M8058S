@@ -1,4 +1,17 @@
 **メロディIC M8058S**
 
 以下のサイトを参考に作成したものです。  
-https://smdn.jp/electronics/M80XXS/
+https://smdn.jp/electronics/M80XXS/  
+
+TeraTermのコマンド操作で制御するようにしています。
+ただし選局以外のコマンドは10進数にした状態で扱ってください(0xFF→255など)  
+
+TeraTermの設定  
+ボーレート 19200  
+データ 8Bit  
+パリティ odd  
+ストップビット 1Bit  
+フロー制御 NONE  
+ローカルエコー無効(MCUがエコーを返します)  
+
+以上の設定は他のUART機器からの流用なので任意の値に変更してください(UART_Config内のパラメータを変更)
