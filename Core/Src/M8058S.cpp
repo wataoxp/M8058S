@@ -7,6 +7,7 @@
 
 #include "M8058S.h"
 #include <stdlib.h>
+#include <string.h>
 
 using namespace MelodyCommands;
 
@@ -74,7 +75,8 @@ uint8_t M8058S::SelVolume(uint8_t vol)
 // 16進数は10進数に直してから入力
 void M8058S::SerialControl(UART& uart)
 {
-	char string[10];
+	char string[20];
+	uint32_t RawData;
 	uint8_t command = 0;
 	uint8_t num = 0;
 
@@ -88,7 +90,15 @@ void M8058S::SerialControl(UART& uart)
 
 	uart.TransmitData((uint8_t*)string, num);
 
-	command = atoi(string);
+	RawData = atoi(string);
+
+	if(RawData > UINT8_MAX)
+	{
+		strcpy(string,"Error!\r\n");
+		uart.TransmitData((uint8_t*)string, strlen(string));
+		return;
+	}
+	command = RawData & UINT8_MAX;
 
 	if(command > MaxMelodyNum())
 	{
